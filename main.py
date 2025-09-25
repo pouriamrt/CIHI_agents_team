@@ -5,6 +5,8 @@ from agno.models.openai import OpenAIChat
 import asyncio
 import sys
 from config import Config
+from pathlib import Path
+import glob
 
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
@@ -24,9 +26,44 @@ if "team" not in st.session_state:
 st.title("CIHI Chatbot Team")
 st.markdown("""
 This AI team can help with:
-- Data table analysis
+- Data table analysis and visualization
 - General Q&A and synthesis  
 """)
+
+# --- Place to show plots (live updating) ---
+def get_plot_files(vis_folder):
+    return sorted(Path(vis_folder).glob("*.*"))
+
+with st.expander("Show Plots", expanded=False):
+    vis_folder = Path(config.visualization_folder)
+    
+    # Use a session state to keep track of the last seen plot files
+    if "last_plot_files" not in st.session_state:
+        st.session_state.last_plot_files = []
+
+    plot_files = get_plot_files(vis_folder)
+    if plot_files != st.session_state.last_plot_files:
+        st.session_state.last_plot_files = plot_files
+
+    if plot_files:
+        for plot_file in plot_files:
+            file_suffix = plot_file.suffix.lower()
+            if file_suffix in [".png", ".jpg", ".jpeg"]:
+                st.image(str(plot_file), caption=plot_file.name)
+            elif file_suffix in [".svg"]:
+                with open(plot_file, "r", encoding="utf-8") as f:
+                    svg_content = f.read()
+                st.markdown(f'<div style="text-align:center">{svg_content}</div>', unsafe_allow_html=True)
+            elif file_suffix in [".pdf"]:
+                st.markdown(f"[{plot_file.name} (PDF)]({plot_file.as_posix()})")
+            else:
+                st.markdown(f"[{plot_file.name}]({plot_file.as_posix()})")
+    else:
+        st.info("No plots have been generated yet. When you ask for a chart or visualization, it will appear here.")
+
+    # Add a refresh button instead of auto-refresh
+    if st.button("🔄 Refresh Plots"):
+        st.rerun()
 
 # Display past messages (if any) from the session state
 for msg in st.session_state.messages:

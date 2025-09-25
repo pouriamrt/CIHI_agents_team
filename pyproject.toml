@@ -10,6 +10,8 @@ dependencies = [
     "crawl4ai>=0.7.4",
     "ddgs>=9.5.2",
     "duckdb>=1.4.0",
+    "matplotlib>=3.10.6",
+    "notebook>=7.4.5",
     "python-dotenv>=1.1.1",
     "streamlit>=1.50.0",
 ]

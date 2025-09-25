@@ -1,5 +1,6 @@
 from .nursing_datatable_agent import agent_datatable
 from .general_agent import general_agent
+from .visualization_workflow import visualization_workflow_agent
 from agno.team import Team
 from config import Config
 
@@ -13,7 +14,8 @@ def initialize_team(model, session_state):
         model=model, 
         members=[
             agent_datatable,
-            general_agent
+            general_agent,
+            visualization_workflow_agent
         ],
         description="Coordinates a team of specialist agents to handle CIHI data analysis tasks.",
         instructions=[
@@ -21,11 +23,14 @@ def initialize_team(model, session_state):
             "Delegate tasks based on query type:",
             "- Data table analysis -> DataTableAgent",
             "- General or multi-step queries -> GeneralAssistant",
+            "- Visualization creation -> VisualizationWorkflowAgent",
             "Gather all agents' findings and synthesize a coherent answer.",
             "Do not include the logs and errors from the tool calls in the response.",
             "Cite sources for any facts and maintain clarity in the final answer.",
             "Always check the conversation history (memory) for context or follow-up references.",
             "If the user asks something that was asked before, utilize remembered information instead of starting fresh.",
+            "If the user asks for to create a chart or visualization, delegate the task to the VisualizationWorkflowAgent.",
+            "When done with visualization, tell the user to refresh the plot section to see the new chart or visualization.",
             "Continue delegating and researching until the query is fully answered.",
             "Avoid mentioning the function calls in the final response and make the final response beautifully formatted as well."
         ],

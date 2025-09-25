@@ -15,17 +15,24 @@ def normalize_filename(filename):
 def clean_csv_file(file_path):
     """Clean CSV file by removing empty columns and handling data formatting"""
     try:
-        # Read the CSV file
-        df = pd.read_csv(file_path)
+        encodings = ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+        df = None
+        for encoding in encodings:
+            try:
+                df = pd.read_csv(file_path, encoding=encoding)
+                print(f"Successfully read {file_path} with {encoding} encoding")
+                break
+            except UnicodeDecodeError:
+                continue
         
-        # Remove columns that are completely empty (all NaN)
+        if df is None:
+            print(f"Could not read {file_path} with any encoding")
+            return
+        
         df = df.dropna(axis=1, how='all')
-        
-        # Replace '—' with NaN for proper handling
         df = df.replace('—', pd.NA)
         
-        # Save the cleaned file
-        df.to_csv(file_path, index=False)
+        df.to_csv(file_path, index=False, encoding='utf-8')
         print(f"Cleaned CSV file: {file_path}")
         
     except Exception as e:
@@ -53,15 +60,16 @@ agent_datatable = Agent(
     db=db,
     instructions=[
         "First always get the list of files",
-        "Then check which file you need to use",
-        "Then check the columns in the file. The first row is the column names.",
-        "Then check the first two rows of the file",
+        "Then check which file you need to use based on the file names and the question",
+        "Then check the columns in the selected file. The first row is the column names.",
+        "Then check the first two rows of the selected file",
         "Then change all of the values equal to '—' to nan.",
+        "Then remove ',' from all of the values of the columns",
         "Then run the query to answer the question",
         "Always wrap column names with double quotes if they contain spaces or special characters",
         "Remember to escape the quotes in the JSON string (use \")",
         "Use single quotes for string values",
-        "Don't return the errors from the tool calls."
+        "Don't return the errors or logs or intermediate results from the tool calls."
     ],
     add_history_to_context=True,
     num_history_runs=3,
