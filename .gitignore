@@ -14,3 +14,6 @@ data/
 
 # Secrets
 .env
+
+# test
+test.py
