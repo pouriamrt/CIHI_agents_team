@@ -1,0 +1,14 @@
+[project]
+name = "cihi-chatbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "agno>=2.0.9",
+    "chainlit>=2.8.1",
+    "crawl4ai>=0.7.4",
+    "ddgs>=9.5.2",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.50.0",
+]
