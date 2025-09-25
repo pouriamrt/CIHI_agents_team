@@ -1,6 +1,7 @@
-from .nursing_datatable_agent import agent_datatable
-from .general_agent import general_agent
-from .visualization_workflow import visualization_workflow_agent
+from agents.nursing_datatable_agent import agent_datatable
+from agents.general_agent import general_agent
+from agents.visualization_workflow import visualization_workflow_agent
+from agents.cihi_web_agent import cihi_web_agent
 from agno.team import Team
 from config import Config
 
@@ -15,7 +16,8 @@ def initialize_team(model, session_state):
         members=[
             agent_datatable,
             general_agent,
-            visualization_workflow_agent
+            visualization_workflow_agent,
+            cihi_web_agent
         ],
         description="Coordinates a team of specialist agents to handle CIHI data analysis tasks.",
         instructions=[
@@ -24,6 +26,7 @@ def initialize_team(model, session_state):
             "- Data table analysis -> DataTableAgent",
             "- General or multi-step queries -> GeneralAssistant",
             "- Visualization creation -> VisualizationWorkflowAgent",
+            "- Web extraction -> CIHI Web Agent",
             "Gather all agents' findings and synthesize a coherent answer.",
             "Do not include the logs and errors from the tool calls in the response.",
             "Cite sources for any facts and maintain clarity in the final answer.",
@@ -31,6 +34,7 @@ def initialize_team(model, session_state):
             "If the user asks something that was asked before, utilize remembered information instead of starting fresh.",
             "If the user asks for to create a chart or visualization, delegate the task to the VisualizationWorkflowAgent.",
             "When done with visualization, tell the user to refresh the plot section to see the new chart or visualization.",
+            "For questions regarding key points, first try to use the CIHI Web Agent to extract the key points.",
             "Continue delegating and researching until the query is fully answered.",
             "Avoid mentioning the function calls in the final response and make the final response beautifully formatted as well."
         ],

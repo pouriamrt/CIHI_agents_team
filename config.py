@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from dotenv import load_dotenv
 import os
 from pathlib import Path
@@ -16,13 +16,17 @@ class Config:
     db = InMemoryDb()
     model_name: str = os.getenv("MODEL_NAME")
     visualization_folder: str = "data/visualizations"
+    web_urls: list[str] = field(default_factory=lambda: ['https://www.cihi.ca/en/registered-nurses', 
+                                                         'https://www.cihi.ca/en/licensed-practical-nurses',
+                                                         'https://www.cihi.ca/en/registered-psychiatric-nurses', 
+                                                         'https://www.cihi.ca/en/nurse-practitioners'])
     
     def get_data_tables(self):
         return [file for file in Path(self.data_folder).glob("*.csv")]
     
     def get_model(self):
         model = self.model_name
-        return OpenAIChat(id=model, api_key=self.api_key)
+        return OpenAIChat(id=model, api_key=self.api_key, temperature=0.0)
     
     def clear_visualization_folder(self):
         try:
