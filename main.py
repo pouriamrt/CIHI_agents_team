@@ -27,6 +27,7 @@ st.title("CIHI Chatbot Team")
 st.markdown("""
 This AI team can help with:
 - Data table analysis and visualization
+- Data dictionary and methodology notes
 - Web extraction for key points
 - General Q&A and synthesis  
 """)
@@ -169,5 +170,5 @@ with st.sidebar:
     st.title("About")
     st.markdown("""
     **How this works**:  
-    - Chat with CIHI released data and websites.
+    - Chat with CIHI released data, websites, and data dictionary and methodology notes.
     """)
