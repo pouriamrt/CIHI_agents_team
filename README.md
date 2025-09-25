@@ -138,10 +138,10 @@ To add new knowledge documents:
 ## 📷 Screenshots
 
 ### Home Interface
-![Home](docs/screenshots/home.png)
+![Home](assets/homepage.png)
 
 ### Visualization Example
-![Visualization](docs/screenshots/visualization.png)
+![Visualization](assets/vis_example.png)
 
 ---
 
