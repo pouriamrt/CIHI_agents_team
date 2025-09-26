@@ -10,7 +10,8 @@ wheels/
 .venv
 
 # Data
-data/
+data/full data table/
+data/visualizations/
 
 # Secrets
 .env
