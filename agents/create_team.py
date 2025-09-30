@@ -42,6 +42,7 @@ def initialize_team(model, session_state):
             "For questions regarding key points, first try to use the CIHI Web Agent to extract the key points.",
             "For questions about the availability and quality of the data, delegate the task to the MethodologyNotesAgent.",
             "For questions about the data dictionary and data elements, delegate the task to the DataDictionaryAgent.",
+            "RN is Registered Nurses, LPN is Licensed Practical Nurses, RPN is Registered Psychiatric Nurses, NP is Nurse Practitioners",
             "Continue delegating and researching until the query is fully answered.",
             "Avoid mentioning the function calls in the final response and make the final response beautifully formatted as well."
         ],

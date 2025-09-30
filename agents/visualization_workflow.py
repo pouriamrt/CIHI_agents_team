@@ -20,7 +20,6 @@ visualization_agent = Agent(
         "Generate clear, informative visualizations based on the given data",
         "Save charts to files and provide insights about the data",
         "Choose appropriate chart types for different data patterns",
-        "RN is Registered Nurses, LPN is Licensed Practical Nurses, RPN is Registered Psychiatric Nurses, NP is Nurse Practitioners",
     ],
     tools=[VisualizationTools(output_dir=config.visualization_folder)],
     add_datetime_to_context=True, 
@@ -54,7 +53,8 @@ visualization_workflow_agent = Agent(
         "Then delegate the task to the VisualizationAgent to create the visualization",
         "Provide insights about the visualization",
         "Save the visualization to the visualization folder",
-        "Don't return the errors from the tool calls."
+        "Don't return the errors from the tool calls.",
+        "Keep doing the task until the visualization is created and saved to the visualization folder."
     ],
     tools=[workflow_tools],
     add_history_to_context=True,
