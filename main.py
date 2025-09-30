@@ -7,6 +7,10 @@ import sys
 from config import Config
 from pathlib import Path
 import glob
+from utils.auth import handle_authentication
+
+
+user_info = handle_authentication()
 
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
@@ -167,6 +171,16 @@ with st.sidebar:
         if "tool_logs" in st.session_state:
             del st.session_state.tool_logs
         st.rerun()  # reload the app
+
+    # --- Logout Button ---
+    st.markdown("---")
+    if st.button("Logout"):
+        # Remove authentication/session info and rerun
+        for key in ["auth", "user_info", "token"]:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.rerun()
+
     st.title("About")
     st.markdown("""
     **How this works**:  

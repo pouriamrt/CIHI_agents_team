@@ -20,6 +20,7 @@ visualization_agent = Agent(
         "Generate clear, informative visualizations based on the given data",
         "Save charts to files and provide insights about the data",
         "Choose appropriate chart types for different data patterns",
+        "RN is Registered Nurses, LPN is Licensed Practical Nurses, RPN is Registered Psychiatric Nurses, NP is Nurse Practitioners",
     ],
     tools=[VisualizationTools(output_dir=config.visualization_folder)],
     add_datetime_to_context=True, 

@@ -6,7 +6,7 @@ from agno.models.openai import OpenAIChat
 from agno.db.in_memory import InMemoryDb
 import glob
 
-load_dotenv()
+load_dotenv(override=True)
 
 @dataclass
 class Config:
@@ -20,6 +20,9 @@ class Config:
                                                          'https://www.cihi.ca/en/licensed-practical-nurses',
                                                          'https://www.cihi.ca/en/registered-psychiatric-nurses', 
                                                          'https://www.cihi.ca/en/nurse-practitioners'])
+    google_client_id: str = os.getenv("GOOGLE_CLIENT_ID")
+    google_client_secret: str = os.getenv("GOOGLE_CLIENT_SECRET")
+    redirect_uri: str = os.getenv("REDIRECT_URI")
     
     def get_data_tables(self):
         return [file for file in Path(self.data_folder).glob("*.csv")]
